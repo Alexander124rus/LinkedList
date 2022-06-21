@@ -15,16 +15,16 @@ private:
 public:
 	List() : first(nullptr) {};
 	~List() {
-		Node* current = first;
-		while (current != nullptr)
-		{
-			first = current->next;
-			delete current;
-			current = first;
-		}
-		first = nullptr;
+		RemoveAll();
 	};
 
+	//Добавить в начало списка
+	void AddRevers(const T& data) {
+		if (Node* node = new Node(data)) {
+			node->next = first;// Новый узел привязывается к старому головному элементу
+			first = node;// Новый узел сам становится головным элементом
+		}
+	};
 
 	//Добавить в конец списка
 	void Add(const T& data)
@@ -42,13 +42,31 @@ public:
 		}
 	}
 
-	//Добавить в начало списка
-	void AddRevers(const T& data) {
-		if (Node* node = new Node(data)) {
-			node->next = first;// Новый узел привязывается к старому головному элементу
-			first = node;// Новый узел сам становится головным элементом
+	//Удаление из начала списка
+	void RemoveBegin() {
+
+	}
+	//Удаление из конца списка
+	void RemoveEnd() {
+		Node* current = first;
+		while (current->next != nullptr) {
+			current = current->next;
 		}
-	};
+		Node* temp = current->next;
+		delete temp;
+	}
+	//Удаление всего списка
+	void RemoveAll() {
+		Node* current = first;
+		while (current != nullptr)
+		{
+			first = current->next;
+			delete current;
+			current = first;
+		}
+		first = nullptr;
+	}
+	
 
 	void PrintList()
 	{
@@ -66,13 +84,16 @@ public:
 
 int main()
 {
-
+	setlocale(LC_ALL,"Russian");
 	List<int> list;
 	for (int i = 0; i < 10; i++)
 	{
 		list.Add(i);
 
 	}
+	list.PrintList();
+	list.RemoveEnd();
+	//cout << "Мы удалили элементы" << endl;
 	list.PrintList();
 
 	//cout << "Hello World!\n";
