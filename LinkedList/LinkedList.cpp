@@ -11,9 +11,10 @@ private:
 		Node(const T data, Node* next = nullptr) : data(data), next(next) {}
 	};
 	Node* first;
+	//Node* last;
 
 public:
-	List() : first(nullptr) {};
+	List() : first(nullptr)/*, last(nullptr)*/ {};
 	~List() {
 		RemoveAll();
 	};
@@ -49,12 +50,29 @@ public:
 	//Удаление из конца списка
 	void RemoveEnd() {
 		Node* current = first;
-		while (current->next != nullptr) {
+		while (current->next->next != nullptr) {
 			current = current->next;
 		}
-		Node* temp = current->next;
-		delete temp;
+		delete current->next;
+		current->next = nullptr;
 	}
+	//void RemoveEnd() {
+	//	//if (is_empty()) return;
+	//	if (first == last) {
+	//		Node* current = first;
+	//		first = current->next;
+	//		delete current;
+
+	//	}
+	//	Node* current2 = first;
+	//	while (current2->next != last) {
+	//		current2 = current2->next;
+
+	//	}
+	//	current2->next = nullptr;
+	//	delete last;
+	//	last = current2;
+	//}
 	//Удаление всего списка
 	void RemoveAll() {
 		Node* current = first;
@@ -91,7 +109,7 @@ int main()
 		list.Add(i);
 
 	}
-	list.PrintList();
+	//list.PrintList();
 	list.RemoveEnd();
 	//cout << "Мы удалили элементы" << endl;
 	list.PrintList();
