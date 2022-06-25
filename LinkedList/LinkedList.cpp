@@ -1,5 +1,12 @@
 ﻿#include <iostream>
-
+/*
+* В этой версиии я не определяю указатель на последний узел списка.
+* Через шаблонный класс определяю класс List вкладываю структуру узла Node.
+* Метод AddRevers добовляет узел в начало списка.
+* Метод Add добовляет в конец списка.
+* 
+* 
+*/
 using namespace std;
 
 template <typename T>
@@ -45,7 +52,9 @@ public:
 
 	//Удаление из начала списка
 	void RemoveBegin() {
-
+		Node* current = first;
+		first = first->next;
+		delete current;
 	}
 	//Удаление из конца списка
 	void RemoveEnd() {
@@ -56,23 +65,7 @@ public:
 		delete current->next;
 		current->next = nullptr;
 	}
-	//void RemoveEnd() {
-	//	//if (is_empty()) return;
-	//	if (first == last) {
-	//		Node* current = first;
-	//		first = current->next;
-	//		delete current;
 
-	//	}
-	//	Node* current2 = first;
-	//	while (current2->next != last) {
-	//		current2 = current2->next;
-
-	//	}
-	//	current2->next = nullptr;
-	//	delete last;
-	//	last = current2;
-	//}
 	//Удаление всего списка
 	void RemoveAll() {
 		Node* current = first;
@@ -84,8 +77,8 @@ public:
 		}
 		first = nullptr;
 	}
-	
 
+	//Печать списка
 	void PrintList()
 	{
 		Node* current = first;
@@ -98,8 +91,6 @@ public:
 
 };
 
-
-
 int main()
 {
 	setlocale(LC_ALL,"Russian");
@@ -109,11 +100,11 @@ int main()
 		list.Add(i);
 
 	}
-	//list.PrintList();
-	list.RemoveEnd();
-	//cout << "Мы удалили элементы" << endl;
+	cout << "Первый список" << endl;
 	list.PrintList();
 
-	//cout << "Hello World!\n";
+	cout << "Удалить первый элемент списка" << endl;
+	list.RemoveBegin();
+	list.PrintList();
 	return 0;
 }
