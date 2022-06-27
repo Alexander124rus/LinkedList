@@ -15,19 +15,89 @@ private:
 	struct Node {
 		T data;
 		Node* next;
-		Node(const T data, Node* next = nullptr) : data(data), next(next) {}
+		Node(T data, Node* next = nullptr) : data(data), next(next) {}
 	};
 	Node* first;
 	//Node* last;
 
 public:
+	class RemoveItemException {};
+	class InsertItemException {};
 	List() : first(nullptr)/*, last(nullptr)*/ {};
 	~List() {
 		RemoveAll();
 	};
 
+	//Определение внешнего итератора
+	friend class Iterator;
+
+	//class Iterator {
+	//protected:
+	//	Node* m_Node;
+	//	const List* m_List;
+	//public:
+
+	//	Iterator(Node* pNode, const List* pList) : m_Node(pNode), m_List(pList) {}
+
+	//	//Проверка есть ли ещё элемнты
+	//	bool HasMore() {
+	//		return m_Node != 0;
+	//	}
+
+	//	//Переход к следующиму узлу
+	//	void next() {
+	//		if (m_Node != nullptr)
+	//		{
+	//			m_Node = m_Node->next;
+	//		}
+	//	}
+
+	//	//Получение значения текущего узла
+	//	T* Get() {
+	//		if (m_Node != nullptr)
+	//		{
+	//			return &(m_Node->data);
+	//		}
+	//	}
+	//
+	//};
+
+	/*class Iterator
+	{
+		Node* currentIt;
+		Node** ptrToCurrentIt;
+	public:
+		Iterator(List<T>* pList)
+		{
+			ptrToCurrentIt = &(pList->first);
+			currentIt = *ptrToCurrentIt;
+		}
+		bool hasMore()
+		{
+			return currentIt != 0;
+		}
+		void next()
+		{
+			if (currentIt == 0) throw BadIteratorException();
+			ptrToCurrentIt = &(currentIt->next);
+			currentIt = *ptrToCurrentIt;
+		}
+
+		T* get()
+		{
+			if (currentIt == 0) throw BadIteratorException();
+			return &(currentIt->data);
+		}
+		Iterator* iterator()
+		{
+			return new Iterator(this);
+		}
+	private:
+		Node* first;
+	};*/
+
 	//Добавить в начало списка
-	void AddRevers(const T& data) {
+	void AddRevers(T data) {
 		if (Node* node = new Node(data)) {
 			node->next = first;// Новый узел привязывается к старому головному элементу
 			first = node;// Новый узел сам становится головным элементом
@@ -35,7 +105,7 @@ public:
 	};
 
 	//Добавить в конец списка
-	void Add(const T& data)
+	void Add(T data)
 	{
 		Node* node = new Node(data);
 		if (first == nullptr) {
@@ -79,8 +149,7 @@ public:
 	}
 
 	//Печать списка
-	void PrintList()
-	{
+	void PrintList() {
 		Node* current = first;
 		while (current != nullptr)
 		{
@@ -88,23 +157,51 @@ public:
 			current = current->next; // переход к следующему узлу
 		}
 	}
-
 };
 
-int main()
+
+//template <class T>
+//bool HasItem(List<T>&list, const T & checkData)
+//{
+//	List<T>::Iterator* iterator = list.iterator();
+//	bool found = false;
+//	while (iterator->HasMore())
+//	{
+//		T* ptrItem = iterator->Get();
+//		if (*ptrItem == checkData)
+//		{
+//			found = true;
+//			break;
+//		}
+//		iterator->next();
+//	}
+//	delete iterator;
+//	return found;
+//}
+
+//template <class T>
+//void List<T>::PrintList();
+
+int main(int args, const char * argv[])
 {
 	setlocale(LC_ALL,"Russian");
-	List<int> list;
-	for (int i = 0; i < 10; i++)
+	List<char> list;
+	/*for (int i = 0; i < 10; i++)
 	{
 		list.Add(i);
 
-	}
+	}*/
+	char a[3];
+	a[0] = 'a';
+	a[1] = 'b';
+	a[2] = 'c';
+
+
+	list.Add('a');
+	list.Add('b');
+	list.Add('c');
 	cout << "Первый список" << endl;
 	list.PrintList();
-
-	cout << "Удалить первый элемент списка" << endl;
-	list.RemoveBegin();
-	list.PrintList();
+	
 	return 0;
 }
