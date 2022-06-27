@@ -12,24 +12,24 @@ using namespace std;
 template <typename T>
 class List {
 private:
+	template <class ITEM>
 	struct Node {
-		T data;
-		Node* next;
-		Node(T data, Node* next = nullptr) : data(data), next(next) {}
+		ITEM data;
+		Node<ITEM>* next;
+		Node(ITEM data, Node<ITEM>* next = nullptr) : data(data), next(next) {}
 	};
-	Node* first;
+	Node<T>* first;
 	//Node* last;
 
 public:
-	class RemoveItemException {};
-	class InsertItemException {};
+
 	List() : first(nullptr)/*, last(nullptr)*/ {};
 	~List() {
 		RemoveAll();
 	};
 
 	//Определение внешнего итератора
-	friend class Iterator;
+	//friend class Iterator;
 
 	//class Iterator {
 	//protected:
@@ -37,7 +37,7 @@ public:
 	//	const List* m_List;
 	//public:
 
-	//	Iterator(Node* pNode, const List* pList) : m_Node(pNode), m_List(pList) {}
+	//	Iterator(Node<T>* pNode, const List<ITEM>* pList) : m_Node(pNode), m_List(pList) {}
 
 	//	//Проверка есть ли ещё элемнты
 	//	bool HasMore() {
@@ -62,57 +62,24 @@ public:
 	//
 	//};
 
-	/*class Iterator
-	{
-		Node* currentIt;
-		Node** ptrToCurrentIt;
-	public:
-		Iterator(List<T>* pList)
-		{
-			ptrToCurrentIt = &(pList->first);
-			currentIt = *ptrToCurrentIt;
-		}
-		bool hasMore()
-		{
-			return currentIt != 0;
-		}
-		void next()
-		{
-			if (currentIt == 0) throw BadIteratorException();
-			ptrToCurrentIt = &(currentIt->next);
-			currentIt = *ptrToCurrentIt;
-		}
-
-		T* get()
-		{
-			if (currentIt == 0) throw BadIteratorException();
-			return &(currentIt->data);
-		}
-		Iterator* iterator()
-		{
-			return new Iterator(this);
-		}
-	private:
-		Node* first;
-	};*/
 
 	//Добавить в начало списка
-	void AddRevers(T data) {
-		if (Node* node = new Node(data)) {
+	void AddRevers(const T data) {
+		if (Node<T>* node = new Node<T>(data)) {
 			node->next = first;// Новый узел привязывается к старому головному элементу
 			first = node;// Новый узел сам становится головным элементом
 		}
 	};
 
 	//Добавить в конец списка
-	void Add(T data)
+	void Add(const T data)
 	{
-		Node* node = new Node(data);
+		Node<T>* node = new Node<T>(data);
 		if (first == nullptr) {
 			first = node;
 		}
 		else {
-			Node* current = first;
+			Node<T>* current = first;
 			while (current->next != nullptr) {
 				current = current->next;
 			}
@@ -122,13 +89,13 @@ public:
 
 	//Удаление из начала списка
 	void RemoveBegin() {
-		Node* current = first;
+		Node<T>* current = first;
 		first = first->next;
 		delete current;
 	}
 	//Удаление из конца списка
 	void RemoveEnd() {
-		Node* current = first;
+		Node<T>* current = first;
 		while (current->next->next != nullptr) {
 			current = current->next;
 		}
@@ -138,7 +105,7 @@ public:
 
 	//Удаление всего списка
 	void RemoveAll() {
-		Node* current = first;
+		Node<T>* current = first;
 		while (current != nullptr)
 		{
 			first = current->next;
@@ -150,7 +117,7 @@ public:
 
 	//Печать списка
 	void PrintList() {
-		Node* current = first;
+		Node<T>* current = first;
 		while (current != nullptr)
 		{
 			cout << current->data << endl; // вывод значения элемента
@@ -159,28 +126,6 @@ public:
 	}
 };
 
-
-//template <class T>
-//bool HasItem(List<T>&list, const T & checkData)
-//{
-//	List<T>::Iterator* iterator = list.iterator();
-//	bool found = false;
-//	while (iterator->HasMore())
-//	{
-//		T* ptrItem = iterator->Get();
-//		if (*ptrItem == checkData)
-//		{
-//			found = true;
-//			break;
-//		}
-//		iterator->next();
-//	}
-//	delete iterator;
-//	return found;
-//}
-
-//template <class T>
-//void List<T>::PrintList();
 
 int main(int args, const char * argv[])
 {
